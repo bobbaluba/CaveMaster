@@ -22,7 +22,7 @@ PI=3.14159
 
 randrange=random.randrange
 screen = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
-pygame.display.set_caption('Eppileptica')
+pygame.display.set_caption('CaveMaster')
 key=pygame.key.get_pressed()
 
 gameObjects=[]
