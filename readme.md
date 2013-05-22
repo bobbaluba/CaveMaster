@@ -3,6 +3,7 @@ CaveMaster
 
 A small prototype for testing cave generation and a* path finding
 
+![Screenshot](http://bobbaluba.github.io/CaveMaster/screenshot.png)
 
 Dependencies
 ------------
