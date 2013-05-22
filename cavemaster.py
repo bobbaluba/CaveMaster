@@ -120,9 +120,9 @@ class aNode:
 #    return (abs(start[0]-end[0]), abs(start[1],end[1]))
 
 def aStarPath(startpos, target):
-    print "Finding path from ", startpos, "to ", target
+    print("Finding path from ", startpos, "to ", target)
     if not world.isOpen(target):
-        print "Unwalkable target"
+        print("Unwalkable target")
         return []
     nodes={}
     start=aNode(startpos, 0, target)
@@ -138,14 +138,14 @@ def aStarPath(startpos, target):
         #print "current node's position: ", current.pos
         
         if current.pos==target:
-            print "Found target!"
+            print("Found target!")
             path=[]
-            print "Retracing path"
+            print("Retracing path")
             while current.pos!=startpos:
                 #print "adding ", current.pos
                 path.append(current.pos)
                 current=current.parent
-            print "Path found: ", path
+            print("Path found: ", path)
             for i in path:
                 world.getTile(i).setColor((255,255,0))
             return path
@@ -181,7 +181,7 @@ def aStarPath(startpos, target):
                 world.getTile(n).setColor((0,0,255))
                 nodes[n]=aNode(n, current.g+10, target)
                 nodes[n].parent=current    
-    print "Unable to find path"
+    print("Unable to find path")
     return []
 
 class PathMove:
@@ -253,7 +253,9 @@ class Player:
             newpos=(self.x+offset[0], self.y+offset[1])
             if world.getTile(newpos).isWalkable():
                 self.setPos(newpos)
-    def setPos(self, (x,y)):
+    def setPos(self, pos):
+        x = pos[0]
+        y = pos[1]
         self.x=x
         self.y=y
     def getPos(self):
@@ -298,13 +300,13 @@ class Camera:
         x=(x-self.camx)*10+SCREENWIDTH/2
         y=(y-self.camy)*10+SCREENHEIGHT/2
         return (x,y)
-    def getWorld(self, (screenx, screeny)):
-        x=(screenx-SCREENWIDTH/2)/10+self.camx
-        y=(screeny-SCREENHEIGHT/2)/10+self.camy
+    def getWorld(self, screenpos):
+        x=(screenpos[0]-SCREENWIDTH/2)/10+self.camx
+        y=(screenpos[1]-SCREENHEIGHT/2)/10+self.camy
         return (x,y)
-    def set(self, (x, y)):
-        self.camx=x
-        self.camy=y
+    def set(self, pos):
+        self.camx=pos[0]
+        self.camy=pos[1]
     def minx(self):
         return self.camx-SCREENWIDTH/20-1
     def miny(self):
@@ -318,12 +320,12 @@ camera=Camera()
 class World:
     grid=defaultdict(Tile)
     def __init__(self):
-        print "Initializing world"
+        print("Initializing world")
 #        for i in range(80):
 #            for j in range(80):
 #                self.grid[(i, j)]=Tile() #obsolete, defaultdict creates tiles on the fly
-    def getTile(self, (x, y)):
-        return self.grid[(x,y)]
+    def getTile(self, pos):
+        return self.grid[pos]
     def setTile(self,x,y,type):
         self.getTile(x,y).setType(type)
     def digFour(self, x, y):
@@ -336,7 +338,7 @@ class World:
             for j in range(100):
                 self.getTile((i,j)).setType("Ground")
     def randomize(self):
-        print "Randomizing world"
+        print("Randomizing world")
     def render(self):
         for i in range(camera.minx(), camera.maxx()):
             for j in range(camera.miny(), camera.maxy()):
@@ -362,11 +364,11 @@ def doCave(x=40,y=40, ttl=400):
 
 
 def makeCave():
-    print "Digging cave"
+    print("Digging cave")
     #doCave()
     dirCave()
     #world.createRoom()
-    print "Cave dug"
+    print("Cave dug")
     
 def dirCave(x=.0, y=.0, dir=0.0, ttl=400):
     if ttl==0: return
